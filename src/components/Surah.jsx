@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState, useEffect,useRef, useContext} from 'react'
 import ReactAudioPlayer from 'react-audio-player';
 import Ayah from './Ayah'
 import {SurahsContext} from './SurahsContext'
@@ -11,16 +11,19 @@ const style = {
 
 function Surah() {
   const {currentSurah, currentAyahAudio, setCurrentAyahAudio} = useContext(SurahsContext)
-
+  const ayahsContainer = useRef()
 
   return (
     currentSurah === null?
     <></>
     :<div className='p-3'>
     <h1>{currentSurah.name}</h1>
-    <div >
+    <div ref={ayahsContainer}>
       {
-        currentSurah.ayahs.map( ayah => <Ayah ayah={ayah}/>)
+        currentSurah.ayahs.map( ayah =>  <Ayah ayah={ayah} currentSurah={currentSurah}/>
+        )
+        //   ayahsContainer.current !== undefined && currentSurah.ayahs.indexOf(ayah) === currentAyahAudio? console.log('ok'):
+        // ayahsContainer.current.innerHTML += ayah.text
       }
     </div>
     <ReactAudioPlayer
